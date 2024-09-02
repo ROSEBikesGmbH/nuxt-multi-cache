@@ -184,7 +184,8 @@ export default defineNuxtModule<ModuleOptions>({
         return addTemplate({
           filename: resolvedFilename,
           write: true,
-          getContents: () => `export { default } from '${resolvedPath}'`,
+          getContents: () => `import options from '${resolvedPath}'
+export default Promise.resolve(options)`,
         })
       }
 
