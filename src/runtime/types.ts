@@ -134,6 +134,11 @@ export interface NuxtMultiCacheOptions {
   }
 
   /**
+   * Path to multicache.serverOptions.
+   */
+  serverOptionsPath?: string
+
+  /**
    * Log detailled messages to the console.
    */
   debug?: boolean
