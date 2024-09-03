@@ -179,17 +179,18 @@ export default defineNuxtModule<ModuleOptions>({
       )
 
       const serverOptionsLine = maybeUserFile
-        ? `import serverOptions from '${relative(nuxt.options.buildDir, srcResolver(resolvedPath))}'`
-        : `const serverOptions: MultiCacheServerOptions = {}`
+        ? `import * as importedServerOptions from '${relative(nuxt.options.buildDir, srcResolver(resolvedPath))}'`
+        : `const importedServerOptions: MultiCacheServerOptions = {}`
 
       return addTemplate({
         filename: resolvedFilename,
         write: true,
-        getContents: () => `
+        // eslint-disable-next-line require-await
+        getContents: async () => `
 import type { MultiCacheServerOptions } from '${moduleTypesPath}'
 ${serverOptionsLine}
 
-export { serverOptions }
+export const serverOptions = Promise.resolve(importedServerOptions)
 `,
       })
     })()
