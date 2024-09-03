@@ -185,8 +185,7 @@ export default defineNuxtModule<ModuleOptions>({
       return addTemplate({
         filename: resolvedFilename,
         write: true,
-        // eslint-disable-next-line require-await
-        getContents: async () => `
+        getContents: () => `
 import type { MultiCacheServerOptions } from '${moduleTypesPath}'
 ${serverOptionsLine}
 export const serverOptions = Promise.resolve(importedServerOptions)
