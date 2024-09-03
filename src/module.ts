@@ -171,7 +171,8 @@ export default defineNuxtModule<ModuleOptions>({
     // https://github.com/nuxt-modules/prismic/blob/fd90dc9acaa474f79b8831db5b8f46a9a9f039ca/src/module.ts#L55
     // Creates the template with runtime server configuration.
     const extensions = ['js', 'mjs', 'ts']
-    const resolvedPath = '~/app/multiCache.serverOptions'
+    const serverOptionsPath = options.serverOptionsPath ?? '~/app/multiCache.serverOptions'
+    const resolvedPath = serverOptionsPath
       .replace(/^(~~|@@)/, nuxt.options.rootDir)
       .replace(/^(~|@)/, nuxt.options.srcDir)
 
