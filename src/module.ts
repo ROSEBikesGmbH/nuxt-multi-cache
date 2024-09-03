@@ -168,7 +168,7 @@ export default defineNuxtModule<ModuleOptions>({
       .replace(/^(~~|@@)/, nuxt.options.rootDir)
       .replace(/^(~|@)/, nuxt.options.srcDir)
 
-    const template = (() => {
+    const template = await (async () => {
       const resolvedFilename = `multiCache.serverOptions.ts`
 
       const maybeUserFile = fileExists(resolvedPath, extensions)
@@ -182,15 +182,17 @@ export default defineNuxtModule<ModuleOptions>({
         ? `import * as importedServerOptions from '${relative(nuxt.options.buildDir, srcResolver(resolvedPath))}'`
         : `const importedServerOptions: MultiCacheServerOptions = {}`
 
-      return addTemplate({
-        filename: resolvedFilename,
-        write: true,
-        getContents: () => `
+      return await Promise.resolve(
+        addTemplate({
+          filename: resolvedFilename,
+          write: true,
+          getContents: () => `
 import type { MultiCacheServerOptions } from '${moduleTypesPath}'
 ${serverOptionsLine}
-export const serverOptions = await Promise.resolve(importedServerOptions)
+export const serverOptions = Promise.resolve(importedServerOptions)
 `,
-      })
+        }),
+      )
     })()
 
     nuxt.options.nitro.externals = nuxt.options.nitro.externals || {}
