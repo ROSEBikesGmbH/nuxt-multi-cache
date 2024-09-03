@@ -188,7 +188,7 @@ export default defineNuxtModule<ModuleOptions>({
         getContents: () => `
 import type { MultiCacheServerOptions } from '${moduleTypesPath}'
 ${serverOptionsLine}
-export const serverOptions = Promise.resolve(importedServerOptions)
+export const serverOptions = await Promise.resolve(importedServerOptions)
 `,
       })
     })()
